@@ -1,11 +1,11 @@
-@extends('Dashboard.app')
-@extends('flashdata')
-@section('title', 'Kasir')
-@section('pageTitle', 'Kasir')
-@section('back', route('user'))
-@section('breadcrumb', 'Kasir')
-{{--  @section('breadcrumb2', 'Tambah Produk')  --}}
-@section('content')
+
+
+<?php $__env->startSection('title', 'Kasir'); ?>
+<?php $__env->startSection('pageTitle', 'Kasir'); ?>
+<?php $__env->startSection('back', route('user')); ?>
+<?php $__env->startSection('breadcrumb', 'Kasir'); ?>
+
+<?php $__env->startSection('content'); ?>
     <div class="col-md-12">
         <div class="card">
             <div class="card-body">
@@ -17,7 +17,7 @@
                         </div>
                         <div class="col-lg-6 col-5 my-auto text-end">
                             <div class="dropdown float-lg-end pe-4">
-                                <a class="btn btn-outline-info float-right" href="{{ route('addUser') }}">
+                                <a class="btn btn-outline-info float-right" href="<?php echo e(route('addUser')); ?>">
                                     <i class="fa fa-plus" aria-hidden="true"></i> Kasir
                                 </a>
 
@@ -43,40 +43,40 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @php
+                            <?php
                                 $no = 1;
-                            @endphp
-                            @foreach ($getUser as $user)
+                            ?>
+                            <?php $__currentLoopData = $getUser; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $user): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <tr>
-                                    <td>{{ $no }}</td>
-                                    <td>{{ $user->nameUser }}</td>
+                                    <td><?php echo e($no); ?></td>
+                                    <td><?php echo e($user->nameUser); ?></td>
                                     <td>
 
-                                        <span>nomor HP : {{ $user->phoneUser }}</span>
+                                        <span>nomor HP : <?php echo e($user->phoneUser); ?></span>
                                         <br>
-                                        <span>email : {{ $user->emailUser }}</span>
+                                        <span>email : <?php echo e($user->emailUser); ?></span>
                                         <br>
-                                        <span>Level : {{ $user->levelUser }}</span>
+                                        <span>Level : <?php echo e($user->levelUser); ?></span>
 
                                     </td>
                                     <td>
                                         <a href="#" class="btn btn-outline-info" data-toggle="modal"
-                                            data-target="#viewModal{{ $user->id_user }}">
+                                            data-target="#viewModal<?php echo e($user->id_user); ?>">
                                             <i class="fa fa-eye" aria-hidden="true"></i>
                                         </a>
 
                                         <a href="#" class="btn btn-outline-info" data-toggle="modal"
-                                            data-target="#editModal{{ $user->id_user }}">
+                                            data-target="#editModal<?php echo e($user->id_user); ?>">
                                             <i class="fas fa-edit"></i>
                                         </a>
                                         <!-- Delete Button -->
                                         <a href="#" class="btn btn-outline-danger" data-toggle="modal"
-                                            data-target="#deleteModal{{ $user->id_user }}">
+                                            data-target="#deleteModal<?php echo e($user->id_user); ?>">
                                             <i class="fa fa-trash" aria-hidden="true"></i>
                                         </a>
 
                                         <!-- Delete Modal -->
-                                        <div class="modal fade" id="deleteModal{{ $user->id_user }}" tabindex="-1"
+                                        <div class="modal fade" id="deleteModal<?php echo e($user->id_user); ?>" tabindex="-1"
                                             role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
                                             <div class="modal-dialog" role="document">
                                                 <div class="modal-content">
@@ -93,7 +93,7 @@
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-secondary"
                                                             data-dismiss="modal">Cancel</button>
-                                                        <a href="{{ route('deleteUser', Crypt::encrypt($user->id_user)) }}"
+                                                        <a href="<?php echo e(route('deleteUser', Crypt::encrypt($user->id_user))); ?>"
                                                             class="btn btn-outline-danger">Delete</a>
                                                     </div>
                                                 </div>
@@ -101,7 +101,7 @@
                                         </div>
 
                                         <!-- View Modal -->
-                                        <div class="modal fade" id="viewModal{{ $user->id_user }}" tabindex="-1"
+                                        <div class="modal fade" id="viewModal<?php echo e($user->id_user); ?>" tabindex="-1"
                                             role="dialog" aria-labelledby="viewModalLabel" aria-hidden="true">
                                             <div class="modal-dialog" role="document">
                                                 <div class="modal-content">
@@ -117,51 +117,51 @@
                                                             <tr>
                                                                 <th>Status</th>
                                                                 <td>
-                                                                    @if ($user->statusUser == 'nonactive')
+                                                                    <?php if($user->statusUser == 'nonactive'): ?>
                                                                         <span
-                                                                            class="fw-bold text-danger"><b>{{ $user->statusUser }}</b></span>
-                                                                    @else
+                                                                            class="fw-bold text-danger"><b><?php echo e($user->statusUser); ?></b></span>
+                                                                    <?php else: ?>
                                                                         <span
-                                                                            class="fw-bold text-success"><b>{{ $user->statusUser }}</b></span>
-                                                                    @endif
+                                                                            class="fw-bold text-success"><b><?php echo e($user->statusUser); ?></b></span>
+                                                                    <?php endif; ?>
                                                                 </td>
                                                             </tr>
                                                             <tr>
                                                                 <th>Username</th>
-                                                                <td>{{ $user->usernameUser }}</td>
+                                                                <td><?php echo e($user->usernameUser); ?></td>
                                                             </tr>
                                                             <tr>
                                                                 <th>Name</th>
-                                                                <td>{{ $user->nameUser }}</td>
+                                                                <td><?php echo e($user->nameUser); ?></td>
                                                             </tr>
                                                             <tr>
                                                                 <th>Phone</th>
-                                                                <td>{{ $user->phoneUser }}</td>
+                                                                <td><?php echo e($user->phoneUser); ?></td>
                                                             </tr>
                                                             <tr>
                                                                 <th>Email</th>
-                                                                <td>{{ $user->emailUser }}</td>
+                                                                <td><?php echo e($user->emailUser); ?></td>
                                                             </tr>
                                                             <tr>
                                                                 <th>Alamat</th>
-                                                                <td>{{ $user->addressUser }}</td>
+                                                                <td><?php echo e($user->addressUser); ?></td>
                                                             </tr>
                                                             <tr>
                                                                 <th>Photo</th>
-                                                                <td>   @if (!empty($user->photoUser))
-                                                                    <img src="{{ url('Uploads/photoUser/', [$user->photoUser]) }}"
+                                                                <td>   <?php if(!empty($user->photoUser)): ?>
+                                                                    <img src="<?php echo e(url('Uploads/photoUser/', [$user->photoUser])); ?>"
                                                                         class="img-fluid ${3|rounded-top,rounded-right,rounded-bottom,rounded-left,rounded-circle,|}"
                                                                         alt="">
-                                                                        @else
+                                                                        <?php else: ?>
                                                                         <img id="imagePreview" alt="Image Preview" class="border"
-                                                                        src="{{ url('Uploads') }}/no-image.jpg"
+                                                                        src="<?php echo e(url('Uploads')); ?>/no-image.jpg"
                                                                         style="max-width: 30%; ">
-                                                                @endif
+                                                                <?php endif; ?>
                                                             </td>
                                                             </tr>
                                                             <tr>
                                                                 <th>Level</th>
-                                                                <td>{{ $user->levelUser }}</td>
+                                                                <td><?php echo e($user->levelUser); ?></td>
                                                             </tr>
                                                         </table>
                                                     </div>
@@ -174,7 +174,7 @@
                                         </div>
 
                                         <!-- Edit Modal -->
-                                        <div class="modal fade" id="editModal{{ $user->id_user }}" tabindex="-1"
+                                        <div class="modal fade" id="editModal<?php echo e($user->id_user); ?>" tabindex="-1"
                                             role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
                                             <div class="modal-dialog" role="document">
                                                 <div class="modal-content">
@@ -188,41 +188,41 @@
                                                     <div class="modal-body">
                                                         <!-- Add your form for editing here -->
                                                         <form
-                                                            action="{{ route('editUserAction', Crypt::encrypt($user->id_user)) }}"
+                                                            action="<?php echo e(route('editUserAction', Crypt::encrypt($user->id_user))); ?>"
                                                             method="POST" enctype="multipart/form-data">
-                                                            @csrf
+                                                            <?php echo csrf_field(); ?>
                                                             <div class="form-group">
                                                                 <label for="editName">Nama</label>
                                                                 <input type="text" class="form-control"
-                                                                    name="editName" value="{{ $user->nameUser }}"
+                                                                    name="editName" value="<?php echo e($user->nameUser); ?>"
                                                                     placeholder="Enter edited name">
                                                             </div>
 
                                                             <div class="form-group">
                                                                 <label for="editPhone">No Telepon</label>
                                                                 <input type="text" class="form-control"
-                                                                    name="editPhone" value="{{ $user->phoneUser }}"
+                                                                    name="editPhone" value="<?php echo e($user->phoneUser); ?>"
                                                                     placeholder="Enter edited phone">
                                                             </div>
 
                                                             <div class="form-group">
                                                                 <label for="editEmail">Email</label>
                                                                 <input type="email" class="form-control"
-                                                                    name="editEmail" value="{{ $user->emailUser }}"
+                                                                    name="editEmail" value="<?php echo e($user->emailUser); ?>"
                                                                     placeholder="Enter edited email">
                                                             </div>
                                                             <div class="form-group">
                                                                 <label for="editEmail">Alamat</label>
-                                                                <textarea class="form-control" name="editAddress">{{ $user->addressUser }}</textarea>
+                                                                <textarea class="form-control" name="editAddress"><?php echo e($user->addressUser); ?></textarea>
                                                             </div>
                                                             <div class="form-group">
                                                                 <label for="editStatus">Status</label>
                                                                 <select name="statusUser" class="form-control">
                                                                     <option value="active"
-                                                                        {{ $user->statusUser == 'active' ? 'selected' : '' }}>
+                                                                        <?php echo e($user->statusUser == 'active' ? 'selected' : ''); ?>>
                                                                         Active</option>
                                                                     <option value="nonactive"
-                                                                        {{ $user->statusUser == 'nonactive' ? 'selected' : '' }}>
+                                                                        <?php echo e($user->statusUser == 'nonactive' ? 'selected' : ''); ?>>
                                                                         Nonactive</option>
                                                                 </select>
                                                             </div>
@@ -241,15 +241,15 @@
                                                                     onchange="previewImage(event)" name="editPhotoUser">
                                                             </div>
                                                             <div id="imagePreviewContainer" class="card">
-                                                                @if (!empty($user->photoUser))
-                                                                <img src="{{ url('Uploads/photoUser/', [$user->photoUser]) }}"
+                                                                <?php if(!empty($user->photoUser)): ?>
+                                                                <img src="<?php echo e(url('Uploads/photoUser/', [$user->photoUser])); ?>"
                                                                     class="img-fluid ${3|rounded-top,rounded-right,rounded-bottom,rounded-left,rounded-circle,|}"
                                                                     alt="">
-                                                                    @else
+                                                                    <?php else: ?>
                                                                     <img id="imagePreview" alt="Image Preview" class="border"
-                                                                    src="{{ url('Uploads') }}/no-image.jpg"
+                                                                    src="<?php echo e(url('Uploads')); ?>/no-image.jpg"
                                                                     style="max-width: 30%; ">
-                                                            @endif
+                                                            <?php endif; ?>
 
                                                             </div>
 
@@ -270,10 +270,10 @@
 
                                     </td>
                                 </tr>
-                                @php
+                                <?php
                                     $no++;
-                                @endphp
-                            @endforeach
+                                ?>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
 
                         </tbody>
@@ -328,4 +328,7 @@
         });
     </script>
 
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('flashdata', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+<?php echo $__env->make('Dashboard.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\Skripsi\ekasir\resources\views/Dashboard/user.blade.php ENDPATH**/ ?>

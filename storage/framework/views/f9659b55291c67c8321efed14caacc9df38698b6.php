@@ -1,11 +1,11 @@
-@extends('Dashboard.app')
-@extends('flashdata')
-@section('title','Tambah Kasir')
-@section('pageTitle','Tambah Kasir')
-@section('back',route('user') )
-@section('breadcrumb','Kasir')
-@section('breadcrumb2','Tambah Kasir')
-@section('content')
+
+
+<?php $__env->startSection('title','Tambah Kasir'); ?>
+<?php $__env->startSection('pageTitle','Tambah Kasir'); ?>
+<?php $__env->startSection('back',route('user') ); ?>
+<?php $__env->startSection('breadcrumb','Kasir'); ?>
+<?php $__env->startSection('breadcrumb2','Tambah Kasir'); ?>
+<?php $__env->startSection('content'); ?>
     <div class="card">
         <div class="card-body">
         <div class="card-title">
@@ -14,8 +14,8 @@
                 </h3>
         </div>
 
-            <form action="{{ route('addUserAction') }}" method="post" enctype="multipart/form-data">
-            @csrf
+            <form action="<?php echo e(route('addUserAction')); ?>" method="post" enctype="multipart/form-data">
+            <?php echo csrf_field(); ?>
 
             <div class="form-group">
                 <label for="usernameUser">Username</label>
@@ -53,7 +53,7 @@
             </div>
             <div id="imagePreviewContainer" class="card">
 
-                <img id="imagePreview" alt="Image Preview"  class="border" src="{{ url('Uploads') }}/no-image.jpg" style="max-width: 30%; ">
+                <img id="imagePreview" alt="Image Preview"  class="border" src="<?php echo e(url('Uploads')); ?>/no-image.jpg" style="max-width: 30%; ">
             </div>
 
             <button type="submit" class="btn btn-outline-primary">Selesai</button>
@@ -88,4 +88,7 @@
         </script>
 
 
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('flashdata', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+<?php echo $__env->make('Dashboard.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\Skripsi\ekasir\resources\views/Dashboard/adduser.blade.php ENDPATH**/ ?>

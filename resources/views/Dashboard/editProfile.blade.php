@@ -52,6 +52,7 @@
                         <img src="{{ url('Uploads/photoUser/', [$userData->photoUser]) }}"
                             class="img-fluid ${3|rounded-top,rounded-right,rounded-bottom,rounded-left,rounded-circle,|}"
                             alt="">
+
                     @endif
                 </div>
                 <div class="form-group">

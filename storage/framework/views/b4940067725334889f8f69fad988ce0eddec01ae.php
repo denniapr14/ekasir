@@ -1,11 +1,11 @@
-@extends('Dashboard.app')
-@extends('flashdata')
-@section('title', 'Penjawalan Kasir')
-@section('pageTitle', 'Penjadwalan Kasir')
-@section('back', route('schedule'))
-@section('breadcrumb', 'Penjawalan Kasir')
-{{-- @section('breadcrumb2', 'Tambah Produk') --}}
-@section('content')
+
+
+<?php $__env->startSection('title', 'Penjawalan Kasir'); ?>
+<?php $__env->startSection('pageTitle', 'Penjadwalan Kasir'); ?>
+<?php $__env->startSection('back', route('schedule')); ?>
+<?php $__env->startSection('breadcrumb', 'Penjawalan Kasir'); ?>
+
+<?php $__env->startSection('content'); ?>
 <div class="col-md-12">
     <div class="card">
         <div class="card-body">
@@ -16,7 +16,7 @@
 
                     </div>
                     <div class="col-lg-6 col-5 my-auto text-end">
-                        @if ($userData->levelUser == 'admin')
+                        <?php if($userData->levelUser == 'admin'): ?>
                         <div class="dropdown float-lg-end pe-4">
                             <a href="#" class="btn btn-outline-info float-right" data-toggle="modal"
                                 data-target="#addDate">
@@ -34,11 +34,11 @@
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
-                                        <form action="{{ route('addEmployeeScheduleAction') }}" method="POST"
+                                        <form action="<?php echo e(route('addEmployeeScheduleAction')); ?>" method="POST"
                                             enctype="multipart/form-data">
                                             <div class="modal-body">
                                                 <!-- Add your form for editing here -->
-                                                @csrf
+                                                <?php echo csrf_field(); ?>
                                                 <div class="form-group">
                                                     <label for="">Tanggal Mulai</label>
                                                     <input type="date" name="dateStart" class="form-control">
@@ -52,10 +52,10 @@
                                                     <label for="">Kasir</label>
                                                     <select name="user" class="form-control">
                                                         <option value="">--Pilih Kasir--</option>
-                                                        @foreach ($getEmployee as $employee)
-                                                        <option value="{{ $employee->id_user }}">
-                                                            {{ $employee->nameUser }}</option>
-                                                        @endforeach
+                                                        <?php $__currentLoopData = $getEmployee; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $employee): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                        <option value="<?php echo e($employee->id_user); ?>">
+                                                            <?php echo e($employee->nameUser); ?></option>
+                                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                     </select>
                                                 </div>
 
@@ -113,7 +113,7 @@
                                 </div>
                             </div>
                         </div>
-                        @endif
+                        <?php endif; ?>
 
                     </div>
 
@@ -126,8 +126,9 @@
 
             <div class="row container">
                 <div class="col-md-12">
-                    <h2 class="text-center">{{ now()->format('F Y') }}
-                        <a class="btn btn-oultine-primary" href="{{ route('getEmployeeSchedule') }}">
+                    <h2 class="text-center"><?php echo e(now()->format('F Y')); ?>
+
+                        <a class="btn btn-oultine-primary" href="<?php echo e(route('getEmployeeSchedule')); ?>">
                             Lihat Semua
                         </a>
 
@@ -137,75 +138,76 @@
 
                 </div>
 
-                @foreach ($getDateSchedule as $dateSchedule)
-                <div class="card {{ $dateSchedule->statusDS == 'work' ? 'border-primary' : 'border-danger' }} col-md-4">
-                    <div class="card-header {{ $dateSchedule->statusDS == 'work' ? 'bg-primary' : 'bg-danger' }}">
-                        <h4 class="m-b-0 text-white">{{ changeDayToIndonesian($dateSchedule->dayNameDS) }},
-                            {{ tgl_indo($dateSchedule->dateDS) }}</h4>
+                <?php $__currentLoopData = $getDateSchedule; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $dateSchedule): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                <div class="card <?php echo e($dateSchedule->statusDS == 'work' ? 'border-primary' : 'border-danger'); ?> col-md-4">
+                    <div class="card-header <?php echo e($dateSchedule->statusDS == 'work' ? 'bg-primary' : 'bg-danger'); ?>">
+                        <h4 class="m-b-0 text-white"><?php echo e(changeDayToIndonesian($dateSchedule->dayNameDS)); ?>,
+                            <?php echo e(tgl_indo($dateSchedule->dateDS)); ?></h4>
                     </div>
                     <div class="card-body">
                         <table class="text-center">
 
-                            @foreach ($getEmployeeSchedule as $employeeSchedule)
-                            @if ($employeeSchedule->id_dateSchedule == $dateSchedule->id_dateSchedule)
+                            <?php $__currentLoopData = $getEmployeeSchedule; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $employeeSchedule): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <?php if($employeeSchedule->id_dateSchedule == $dateSchedule->id_dateSchedule): ?>
                             <tr>
                                 <th>Kasir</th>
                                 <th>Pagi</th>
                                 <th>Siang</th>
                                 <th>Malam</th>
-                                @if ($userData->levelUser == 'admin')
+                                <?php if($userData->levelUser == 'admin'): ?>
                                 <th>Pengaturan</th>
-                                @else
-                                @endif
+                                <?php else: ?>
+                                <?php endif; ?>
 
                             </tr>
                             <tr>
                                 <td>
-                                    {{ $employeeSchedule->nameUser }}
+                                    <?php echo e($employeeSchedule->nameUser); ?>
+
                                 </td>
-                                @if (
+                                <?php if(
                                 $employeeSchedule->shiftMorning != 'true' &&
                                 $employeeSchedule->shiftAfternoon != 'true' &&
-                                $employeeSchedule->shiftNight != 'true')
+                                $employeeSchedule->shiftNight != 'true'): ?>
                                 <td class=" " colspan="3">
                                     <p class="text-info"><b>Libur</b></p>
                                 </td>
-                                @else
+                                <?php else: ?>
                                 <td>
-                                    @if ($employeeSchedule->shiftMorning == 'true')
+                                    <?php if($employeeSchedule->shiftMorning == 'true'): ?>
                                     <i class="fa fa-check" aria-hidden="true"></i>
-                                    @else
+                                    <?php else: ?>
                                     <i class="fa fa-times" aria-hidden="true"></i>
-                                    @endif
+                                    <?php endif; ?>
                                 </td>
                                 <td>
-                                    @if ($employeeSchedule->shiftAfternoon == 'true')
+                                    <?php if($employeeSchedule->shiftAfternoon == 'true'): ?>
                                     <i class="fa fa-check" aria-hidden="true"></i>
-                                    @else
+                                    <?php else: ?>
                                     <i class="fa fa-times" aria-hidden="true"></i>
-                                    @endif
+                                    <?php endif; ?>
                                 </td>
                                 <td>
-                                    @if ($employeeSchedule->shiftNight == 'true')
+                                    <?php if($employeeSchedule->shiftNight == 'true'): ?>
                                     <i class="fa fa-check" aria-hidden="true"></i>
-                                    @else
+                                    <?php else: ?>
                                     <i class="fa fa-times" aria-hidden="true"></i>
-                                    @endif
+                                    <?php endif; ?>
                                 </td>
-                                @endif
+                                <?php endif; ?>
 
 
                                 <td>
-                                    @if ($userData->levelUser == 'admin')
+                                    <?php if($userData->levelUser == 'admin'): ?>
                                     <a href="#" class="btn btn-outline-info" data-toggle="modal"
-                                        data-target="#editModalSchedule{{ $employeeSchedule->id_schedule }}"><i
+                                        data-target="#editModalSchedule<?php echo e($employeeSchedule->id_schedule); ?>"><i
                                             class="fas fa-edit    "></i></a>
 
                                     <a href="#" class="btn btn-outline-danger" data-toggle="modal"
-                                        data-target="#deleteModal{{ $employeeSchedule->id_schedule }}"><i
+                                        data-target="#deleteModal<?php echo e($employeeSchedule->id_schedule); ?>"><i
                                             class="fa fa-trash" aria-hidden="true"></i></a>
 
-                                            <div class="modal" id="deleteModal{{ $employeeSchedule->id_schedule }}"
+                                            <div class="modal" id="deleteModal<?php echo e($employeeSchedule->id_schedule); ?>"
                                                 tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel"
                                                 aria-hidden="true">
                                                 <div class="modal-dialog" role="document">
@@ -224,18 +226,18 @@
                                                         <div class="modal-footer">
                                                             <button type="button" class="btn btn-secondary"
                                                                 data-dismiss="modal">Batal</button>
-                                                            <a href="{{ route('deleteEmployeeSchedule', Crypt::encrypt($employeeSchedule->id_schedule)) }}"
+                                                            <a href="<?php echo e(route('deleteEmployeeSchedule', Crypt::encrypt($employeeSchedule->id_schedule))); ?>"
                                                                 class="btn btn-danger">Hapus</a>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                    @else
-                                    @endif
+                                    <?php else: ?>
+                                    <?php endif; ?>
 
 
                                     <!-- Edit Modal -->
-                                    <div class="modal" id="editModalSchedule{{ $employeeSchedule->id_schedule }}"
+                                    <div class="modal" id="editModalSchedule<?php echo e($employeeSchedule->id_schedule); ?>"
                                         tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
                                         <div class="modal-dialog" role="document">
                                             <div class="modal-content">
@@ -244,17 +246,18 @@
                                                         Edit
                                                         Jadwal
                                                         Kasir
-                                                        {{ changeDayToIndonesian($dateSchedule->dayNameDS) }},
-                                                        {{ tgl_indo($dateSchedule->dateDS) }}
+                                                        <?php echo e(changeDayToIndonesian($dateSchedule->dayNameDS)); ?>,
+                                                        <?php echo e(tgl_indo($dateSchedule->dateDS)); ?>
+
                                                     </h5>
                                                     <button type="button" class="close" data-dismiss="modal"
                                                         aria-label="Close">
                                                         <span aria-hidden="true">&times;</span>
                                                     </button>
                                                 </div>
-                                                <form action="{{ route('editEmployeeScheduleAction', Crypt::encrypt($employeeSchedule->id_schedule)) }}"
+                                                <form action="<?php echo e(route('editEmployeeScheduleAction', Crypt::encrypt($employeeSchedule->id_schedule))); ?>"
                                                     method="POST" enctype="multipart/form-data">
-                                                    @csrf
+                                                    <?php echo csrf_field(); ?>
                                                     <div class="modal-body">
                                                         <!-- Form for editing content -->
 
@@ -263,7 +266,7 @@
                                                             <label for="">Nama
                                                                 Kasir</label>
                                                             <input type="text" id="" readonly
-                                                                value="{{ $employeeSchedule->nameUser }}"
+                                                                value="<?php echo e($employeeSchedule->nameUser); ?>"
                                                                 class="form-control" placeholder=""
                                                                 aria-describedby="helpId">
 
@@ -282,17 +285,17 @@
                                                                     <td>
                                                                         <input type="checkbox" name="editMorning"
                                                                             class="form-control" value="true"
-                                                                            @if($employeeSchedule->shiftMorning == 'true') checked @endif>
+                                                                            <?php if($employeeSchedule->shiftMorning == 'true'): ?> checked <?php endif; ?>>
                                                                     </td>
                                                                     <td>
                                                                         <input type="checkbox" name="editAfternoon"
                                                                             class="form-control" value="true"
-                                                                            @if ($employeeSchedule->shiftAfternoon == 'true') checked @endif>
+                                                                            <?php if($employeeSchedule->shiftAfternoon == 'true'): ?> checked <?php endif; ?>>
                                                                     </td>
                                                                     <td>
                                                                         <input type="checkbox" name="editNight"
                                                                             class="form-control" value="true"
-                                                                            @if($employeeSchedule->shiftNight == 'true') checked @endif >
+                                                                            <?php if($employeeSchedule->shiftNight == 'true'): ?> checked <?php endif; ?> >
                                                                     </td>
 
                                                                 </tr>
@@ -316,15 +319,15 @@
 
                                 </td>
                             </tr>
-                            @else
-                            @endif
-                            @endforeach
+                            <?php else: ?>
+                            <?php endif; ?>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
                         </table>
 
                     </div>
                 </div>
-                @endforeach
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             </div>
 
             <div>
@@ -353,4 +356,7 @@
         });
 </script>
 
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('flashdata', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+<?php echo $__env->make('Dashboard.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\Skripsi\ekasir\resources\views/Dashboard/employeSchedule.blade.php ENDPATH**/ ?>

@@ -1,11 +1,11 @@
-@extends('Dashboard.app')
-@extends('flashdata')
-@section('title','Tambah Kategori Produk')
-@section('pageTitle','Tambah Produk')
-@section('back',route('product') )
-@section('breadcrumb','Produk')
-@section('breadcrumb2','Tambah Produk')
-@section('content')
+
+
+<?php $__env->startSection('title','Tambah Kategori Produk'); ?>
+<?php $__env->startSection('pageTitle','Tambah Produk'); ?>
+<?php $__env->startSection('back',route('product') ); ?>
+<?php $__env->startSection('breadcrumb','Produk'); ?>
+<?php $__env->startSection('breadcrumb2','Tambah Produk'); ?>
+<?php $__env->startSection('content'); ?>
 <div class="col-md-12">
     <div class="card">
         <div class="card-body">
@@ -20,15 +20,15 @@
 
             </div>
             <div>
-                <form action="{{ route('addProductAction') }}" enctype="multipart/form-data" method="post">
-                    @csrf
+                <form action="<?php echo e(route('addProductAction')); ?>" enctype="multipart/form-data" method="post">
+                    <?php echo csrf_field(); ?>
                     <div class="form-group">
                         <label class="form-label">Kategori Produk</label>
                         <select name="productCategory" class="form form-control form-select-lg" id="">
                             <option value="" >--Pilih--</option>
-                            @foreach ($getProductCategory as $productCategory)
-                            <option value="{{ $productCategory->id_productCategory }}">{{ $productCategory->productCategory }}</option>
-                            @endforeach
+                            <?php $__currentLoopData = $getProductCategory; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $productCategory): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <option value="<?php echo e($productCategory->id_productCategory); ?>"><?php echo e($productCategory->productCategory); ?></option>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         </select>
                     </div>
                     <div class="form-group">
@@ -66,7 +66,7 @@
                     </div>
                     <div id="imagePreviewContainer" class="card">
                         <center>
-                        <img id="imagePreview" alt="Image Preview" class="border" src="{{ url('Uploads') }}/no-image.jpg" style="max-width: 30%; ">
+                        <img id="imagePreview" alt="Image Preview" class="border" src="<?php echo e(url('Uploads')); ?>/no-image.jpg" style="max-width: 30%; ">
                     </center>
                     </div>
 
@@ -102,4 +102,7 @@
         }
     }
     </script>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('flashdata', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+<?php echo $__env->make('Dashboard.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\Skripsi\ekasir\resources\views/Dashboard/addProduct.blade.php ENDPATH**/ ?>

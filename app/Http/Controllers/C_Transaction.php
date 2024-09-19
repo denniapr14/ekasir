@@ -70,10 +70,7 @@ class C_Transaction extends Controller
         $decryptedQuanty = Crypt::decrypt($qty);
         $decryptedPrice = Crypt::decrypt($price);
         $decryptedStartPrice =  Crypt::decrypt($startPrice);
-
-
         if (session()->has('user')) {
-            # code...
             $getCart = $this->cart->firstCart(
                 [
                     'id_product' => $decryptedID,
@@ -81,7 +78,6 @@ class C_Transaction extends Controller
                     'statusCart' => 'cart'
                 ]
             );
-            // dd($getCart);
             if ($decryptedStatus == "Plus") {
                 if ($getCart == null) {
                     // Insert a new cart item
@@ -141,9 +137,6 @@ class C_Transaction extends Controller
                         ]);
                 }
             }
-
-
-
             return redirect()->route('transaction')->with('success', 'product sudah ditambahkan di keranjang');
         } else {
             return redirect()->route('login');

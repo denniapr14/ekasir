@@ -1,9 +1,9 @@
-@extends('Dashboard.app')
-@extends('flashdata')
-@section('content')
-@section('title', 'Kategori Pembelian')
-@section('pageTitle', 'Kategori Pembelian')
-@section('breadcrumb', 'Kategori Pembelian')
+
+
+<?php $__env->startSection('content'); ?>
+<?php $__env->startSection('title', 'Kategori Pembelian'); ?>
+<?php $__env->startSection('pageTitle', 'Kategori Pembelian'); ?>
+<?php $__env->startSection('breadcrumb', 'Kategori Pembelian'); ?>
 <div class="col-md-12">
     <div class="card">
         <div class="card-body">
@@ -31,8 +31,8 @@
                                                 aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                         </div>
 
-                                        <form action="{{ route('addOrderCategoryAction') }}" method="post" enctype="multipart/form-data">
-                                            @csrf
+                                        <form action="<?php echo e(route('addOrderCategoryAction')); ?>" method="post" enctype="multipart/form-data">
+                                            <?php echo csrf_field(); ?>
                                             <div class="modal-body">
 
                                                 <div class="form-group">
@@ -48,7 +48,7 @@
 
                                                 <div id="imagePreviewContainer" class="card">
                                                     <center>
-                                                        <img id="imagePreview" alt="Image Preview" class="border" src="{{ url('Uploads') }}/no-image.jpg" style="max-width: 50%; ">
+                                                        <img id="imagePreview" alt="Image Preview" class="border" src="<?php echo e(url('Uploads')); ?>/no-image.jpg" style="max-width: 50%; ">
                                                     </center>
                                                 </div>
                                             </div>
@@ -80,28 +80,30 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @php
+                        <?php
                             $noOrderCategory = 1;
 
-                        @endphp
-                        @foreach ($getOrderCategory as $orderCategory)
+                        ?>
+                        <?php $__currentLoopData = $getOrderCategory; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $orderCategory): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                             <tr>
-                                <td scope="row">{{ $noOrderCategory }}</td>
+                                <td scope="row"><?php echo e($noOrderCategory); ?></td>
                                 <td>
-                                    {{ $orderCategory->orderCategory }}
+                                    <?php echo e($orderCategory->orderCategory); ?>
+
                                 </td>
                                 <td>
-                                    {{ $orderCategory->statusOrderCategory }}
+                                    <?php echo e($orderCategory->statusOrderCategory); ?>
+
                                 </td>
 
                                 <td>
                                     <div>
                                         <a class="btn btn-outline-info" href="#"
-                                            aria-expanded="false" data-toggle="modal" data-target="#modalEditOrder{{ $orderCategory->id_orderCategory }}">
+                                            aria-expanded="false" data-toggle="modal" data-target="#modalEditOrder<?php echo e($orderCategory->id_orderCategory); ?>">
                                             <i class="fas fa-edit  "></i>
                                         </a>
 
-                                        <div class="modal fade" id="modalEditOrder{{ $orderCategory->id_orderCategory }}" tabindex="-1" role="dialog"
+                                        <div class="modal fade" id="modalEditOrder<?php echo e($orderCategory->id_orderCategory); ?>" tabindex="-1" role="dialog"
                                             aria-labelledby="exampleModalLabel1">
                                             <div class="modal-dialog" role="document">
                                                 <div class="modal-content">
@@ -114,15 +116,15 @@
                                                                 aria-hidden="true">&times;</span></button>
                                                     </div>
 
-                                                    <form action="{{ route('editOrderCategoryAction',Crypt::encrypt($orderCategory->id_orderCategory)) }}" enctype="multipart/form-data"
+                                                    <form action="<?php echo e(route('editOrderCategoryAction',Crypt::encrypt($orderCategory->id_orderCategory))); ?>" enctype="multipart/form-data"
                                                         method="post">
-                                                        @csrf
+                                                        <?php echo csrf_field(); ?>
                                                         <div class="modal-body">
                                                             <div class="form-group">
                                                                 <label for="recipient-name"
                                                                     class="control-label">Kategori Pembelian</label>
                                                                 <input type="text" class="form-control"
-                                                                    name="editOrderCategory" value="{{ $orderCategory->orderCategory }}" id="recipient-name1">
+                                                                    name="editOrderCategory" value="<?php echo e($orderCategory->orderCategory); ?>" id="recipient-name1">
                                                             </div>
                                                             <div class="form-group">
                                                                 <label for="recipient-name" class="control-label">Logo</label>
@@ -140,15 +142,15 @@
                                                                 </select>
                                                             </div>
 
-                                                            @if (!empty($orderCategory->markUp))
+                                                            <?php if(!empty($orderCategory->markUp)): ?>
                                                             <div id="imagePreviewContainer" class="card">
-                                                                <img id="imagePreview" alt="Image Preview" src="{{ url('Uploads') }}/orderCategoryCompressed/{{ $orderCategory->markUp }}" style="max-width: 100%; max-height: 200px;">
+                                                                <img id="imagePreview" alt="Image Preview" src="<?php echo e(url('Uploads')); ?>/orderCategoryCompressed/<?php echo e($orderCategory->markUp); ?>" style="max-width: 100%; max-height: 200px;">
                                                             </div>
-                                                            @else
+                                                            <?php else: ?>
                                                             <div id="imagePreviewContainer" class="card">
                                                                 <img id="imagePreview" alt="Image Preview" style="max-width: 100%; max-height: 200px;">
                                                             </div>
-                                                            @endif
+                                                            <?php endif; ?>
                                                         </div>
                                                         <div class="modal-footer">
                                                             <button type="button" class="btn btn-default"
@@ -164,10 +166,10 @@
 
                                 </td>
                             </tr>
-                            @php
+                            <?php
                                 $noOrderCategory++;
-                            @endphp
-                        @endforeach
+                            ?>
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
                     </tbody>
                 </table>
@@ -224,4 +226,7 @@
     </script>
 
 
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('flashdata', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+<?php echo $__env->make('Dashboard.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\Skripsi\ekasir\resources\views/Dashboard/orderCategory.blade.php ENDPATH**/ ?>

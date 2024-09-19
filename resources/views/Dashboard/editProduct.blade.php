@@ -70,11 +70,14 @@
                         </select>
                     </div>
                     <div id="imagePreviewContainer" class="card">
-                        @if (!empty($getProduct->imgProduct))
-                        <img id="imagePreview" alt="Image Preview" src="{{ url('Uploads') }}/productCompressed/{{ $getProduct->imgProduct }}" style="max-width: 100%; max-height: 200px;">
-                        @else
-                        <img id="imagePreview" alt="Image Preview" src="" style="max-width: 100%; max-height: 200px;">
-                        @endif
+                        <center>
+
+                            @if (!empty($getProduct->imgProduct))
+                            <img id="imagePreview" alt="Image Preview"  class="border" src="{{ url('Uploads') }}/productCompressed/{{ $getProduct->imgProduct }}" style="max-width: 40%; ">
+                            @else
+                            <img id="imagePreview" alt="Image Preview"  class="border" src="{{ url('Uploads') }}/no-image.jpg" style="max-width: 40%; ">
+                            @endif
+                        </center>
 
                     </div>
                     <button type="submit" class="btn btn-outline-primary">Selesai</button>
